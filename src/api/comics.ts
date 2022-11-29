@@ -4,7 +4,7 @@ import {
   Genre,
 } from "../models";
 import { getRequestPathName } from "../utils/StringUtils";
-import { useFetch } from "./reactQuery";
+import { useFetch, useInfiniteFetch } from "./reactQuery";
 
 /*
  *
@@ -17,6 +17,24 @@ export const useFetchComics = (page = 1, pageSize = 19, genre: Genre) => {
     {
       page,
       pageSize,
+    }
+  );
+};
+/*
+ *
+ * infinite fetch
+ *
+ */
+export const useInfiniteFetchComics = (genre: Genre) => {
+  return useInfiniteFetch<ComicRankApiSuccessResponse>(
+    getRequestPathName(genre),
+    {
+      getNextPageParam: ({ hasNext }, { length }) => {
+        if (hasNext) {
+          return length + 1;
+        }
+        return undefined;
+      },
     }
   );
 };

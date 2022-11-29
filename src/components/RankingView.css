@@ -1,0 +1,24 @@
+.rank-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #ffffff;
+}
+.rank-item-cover {
+  display: flex;
+  align-items: center;
+}
+.rank-item-rank {
+  display: flex;
+  align-items: row;
+}
+.rank-item-content {
+  display: flex;
+  overflow: hidden;
+  flex-direction: column;
+}
+.text {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

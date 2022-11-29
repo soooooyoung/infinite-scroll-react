@@ -1,4 +1,10 @@
-import { UseQueryOptions, useQuery, QueryFunctionContext } from "react-query";
+import {
+  UseQueryOptions,
+  useQuery,
+  QueryFunctionContext,
+  useInfiniteQuery,
+  UseInfiniteQueryOptions,
+} from "react-query";
 import axios from "axios";
 import { env } from "../config/env";
 
@@ -26,10 +32,14 @@ export const fetcher = async <T>({
 }: QueryFunctionContext<QueryKeyT>): Promise<T> => {
   const [url, params] = queryKey;
   return api
-    .get<T>(url, { params: { ...params, pageParam } })
+    .get<T>(url, { params: { ...params, page: pageParam } })
     .then((res) => res.data);
 };
-
+/*
+ *
+ * fetch
+ *
+ */
 export const useFetch = <T>(
   url: string,
   params?: object,
@@ -39,12 +49,28 @@ export const useFetch = <T>(
     [url, params],
     ({ queryKey }) => fetcher({ queryKey, meta: undefined }),
     {
-      onError: (e) => {
-        //TODO: process error
-      },
       enabled: true,
       refetchOnWindowFocus: false,
       ...config,
     }
+  );
+};
+/*
+ *
+ * infinite fetch
+ *
+ */
+export const useInfiniteFetch = <T>(
+  url: string,
+  config?: Omit<
+    UseInfiniteQueryOptions<T, Error, T, T, QueryKeyT>,
+    "queryKey" | "queryFn"
+  >
+) => {
+  return useInfiniteQuery<T, Error, T, QueryKeyT>(
+    [url, {}],
+    ({ queryKey, pageParam = 1 }) =>
+      fetcher({ queryKey, meta: undefined, pageParam }),
+    { ...config }
   );
 };
