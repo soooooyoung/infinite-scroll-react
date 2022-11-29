@@ -21,3 +21,15 @@ export interface ComicRankItem {
   print: boolean; // 단행본 여부
   thumbnailSrc: string; // 작품 썸네일 url
 }
+
+export type Genre =
+  | "ROMANCE" // 로맨스
+  | "BL" // BL
+  | "DRAMA" // 드라마
+  | "FANTASY" // 판타지
+  | "COMEDY" // 개그
+  | "ACTION" // 액션
+  | "ACADEMY" // 학원
+  | "MYSTERY" // 미스터리
+  | "SLICEOFLIFE" // 일상
+  | "GL"; // 백합

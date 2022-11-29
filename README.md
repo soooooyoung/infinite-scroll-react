@@ -21,7 +21,7 @@ This is a sample React project written in TypeScript.
 
 ### 작가명
 
-role이 wirter, painter, scripter 인 경우에만 출력.
+role이 writer, painter, scripter 인 경우에만 출력.
 
 ### 랭킹
 
