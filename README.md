@@ -2,6 +2,8 @@
 
 This is a React Web Application fetching list of data implementing infinite scroll design with React Query and Intersection Observer API.
 
+- [See Implementation Process](https://shanabunny.com/?p=594)
+
 ## Built with
 
 - [TypeScript](https://www.typescriptlang.org/)
@@ -62,3 +64,4 @@ yarn start
 ```
 
 Start up application on local server using yarn or npm.
+
