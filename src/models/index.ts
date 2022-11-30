@@ -2,7 +2,7 @@
  * Data Models
  */
 export type { Artist } from "./data/artist";
-export type { ComicRankItem, Genre } from "./data/comic";
+export type { ComicRankItem, Genre, Period } from "./data/comic";
 /**
  * Response Models
  */

@@ -1,8 +1,16 @@
+.rank-list {
+  margin-top: 40px;
+}
+
 .rank-item {
   display: flex;
   flex-direction: row;
   align-items: center;
   background-color: #ffffff;
+  height: 200px;
+  gap: 16px;
+  padding: 5px;
+  border-radius: 16px;
 }
 .rank-item-cover {
   display: flex;
@@ -10,7 +18,9 @@
 }
 .rank-item-rank {
   display: flex;
-  align-items: row;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
 }
 .rank-item-content {
   display: flex;

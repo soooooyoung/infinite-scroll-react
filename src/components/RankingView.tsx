@@ -1,16 +1,23 @@
-import { List, Skeleton } from "antd";
-import { useMemo } from "react";
+import { List, Skeleton, Space } from "antd";
+import { useMemo, useState } from "react";
 import { useInfiniteFetchComics } from "../api/comics";
 import { useObserver } from "../hooks/UseObserver";
 import { ScoreIcon } from "./ScoreIcon";
 import { ComicRankItem, Genre } from "../models";
 import "./RankingView.css";
+import { getContentStateToString } from "../utils/StringUtils";
+import { SearchFilter } from "./SearchFilter";
+import { CheckboxValueType } from "antd/es/checkbox/Group";
+import { getFilteredComicLists } from "../utils/FilterUtils";
 
 interface Props {
   genre: Genre;
 }
 
 const RankingView = ({ genre }: Props) => {
+  const [searchValues, setSearchValues] = useState<CheckboxValueType[]>([]);
+  const [disabledValues, setDisabledValues] = useState<CheckboxValueType[]>([]);
+
   const {
     data: result,
     isLoading,
@@ -27,13 +34,34 @@ const RankingView = ({ genre }: Props) => {
   });
 
   const list = useMemo<ComicRankItem[]>(
-    () => result?.pages.flatMap(({ data }) => data) ?? [],
-    [result]
+    () =>
+      getFilteredComicLists(
+        result?.pages.flatMap(({ data }) => data) ?? [],
+        searchValues
+      ),
+    [result, searchValues]
   );
+
+  const onChangeSearchValue = (keywords: CheckboxValueType[]) => {
+    setSearchValues(keywords);
+    if (keywords.includes("scheduled")) {
+      setDisabledValues(["completed"]);
+    } else if (keywords.includes("completed")) {
+      setDisabledValues(["scheduled"]);
+    } else {
+      setDisabledValues([]);
+    }
+  };
 
   return (
     <div className="rankingView">
+      <SearchFilter
+        value={searchValues}
+        disabled={disabledValues}
+        onChange={onChangeSearchValue}
+      />
       <List
+        className="rank-list"
         grid={{ gutter: 10, xs: 1, sm: 2, md: 2, lg: 3, xl: 3, xxl: 4 }}
         size="large"
         dataSource={list}
@@ -48,7 +76,7 @@ const RankingView = ({ genre }: Props) => {
                 </div>
                 <div className="rank-item-content">
                   <div className="rank-item-rank">
-                    <h2>{item.currentRank}</h2>
+                    <h1>{item.currentRank}</h1>
                     <ScoreIcon
                       score={item.previousRank - item.currentRank ?? 0}
                     />
@@ -63,6 +91,13 @@ const RankingView = ({ genre }: Props) => {
                         {idx < arr.length - 1 && ", "}
                       </span>
                     ))}
+                  </div>
+                  <div className="text">{item.freedEpisodeSize}화 무료</div>
+                  <div className="text">
+                    {getContentStateToString(
+                      item.contentsState,
+                      item.schedule.periods
+                    )}
                   </div>
                 </div>
               </div>

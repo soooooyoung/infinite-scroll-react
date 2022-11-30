@@ -1,7 +1,7 @@
 import { Artist } from "..";
 
 // 연재 요일
-type Period = "MON" | "TUE" | "WED" | "THU" | "FRI" | "SAT" | "SUN";
+export type Period = "MON" | "TUE" | "WED" | "THU" | "FRI" | "SAT" | "SUN";
 
 export interface ComicRankItem {
   id: number; // 작품 id
