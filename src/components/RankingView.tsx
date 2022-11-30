@@ -2,6 +2,7 @@ import { List, Skeleton } from "antd";
 import { useMemo } from "react";
 import { useInfiniteFetchComics } from "../api/comics";
 import { useObserver } from "../hooks/UseObserver";
+import { ScoreIcon } from "./ScoreIcon";
 import { ComicRankItem, Genre } from "../models";
 import "./RankingView.css";
 
@@ -48,7 +49,9 @@ const RankingView = ({ genre }: Props) => {
                 <div className="rank-item-content">
                   <div className="rank-item-rank">
                     <h2>{item.currentRank}</h2>
-                    <h3>{item.previousRank - item.currentRank}</h3>
+                    <ScoreIcon
+                      score={item.previousRank - item.currentRank ?? 0}
+                    />
                   </div>
                   <div className="text">
                     <span>{item.title}</span>
