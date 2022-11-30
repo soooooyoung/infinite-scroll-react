@@ -1,14 +1,14 @@
-import { List, Skeleton, Space } from "antd";
+import { List, Skeleton } from "antd";
 import { useMemo, useState } from "react";
 import { useInfiniteFetchComics } from "../api/comics";
+import { CheckboxValueType } from "antd/es/checkbox/Group";
 import { useObserver } from "../hooks/UseObserver";
 import { ScoreIcon } from "./ScoreIcon";
-import { ComicRankItem, Genre } from "../models";
-import "./RankingView.css";
-import { getContentStateToString } from "../utils/StringUtils";
 import { SearchFilter } from "./SearchFilter";
-import { CheckboxValueType } from "antd/es/checkbox/Group";
+import { getContentStateToString } from "../utils/StringUtils";
 import { getFilteredComicLists } from "../utils/FilterUtils";
+import { Artist, ComicRankItem, Genre } from "../models";
+import "./RankingView.css";
 
 interface Props {
   genre: Genre;
@@ -53,6 +53,17 @@ const RankingView = ({ genre }: Props) => {
     }
   };
 
+  const getArtists = (artists: Artist[]) =>
+    artists.reduce((prev, curr) => {
+      if (
+        curr.role === "writer" ||
+        curr.role === "painter" ||
+        curr.role === "scripter"
+      )
+        prev.push(curr.name);
+      return prev;
+    }, [] as string[]);
+
   return (
     <div className="rankingView">
       <SearchFilter
@@ -84,14 +95,7 @@ const RankingView = ({ genre }: Props) => {
                   <div className="text">
                     <span>{item.title}</span>
                   </div>
-                  <div className="text">
-                    {item.artists.map((artist, idx, arr) => (
-                      <span key={idx}>
-                        {artist.name}
-                        {idx < arr.length - 1 && ", "}
-                      </span>
-                    ))}
-                  </div>
+                  <div className="text">{getArtists(item.artists)}</div>
                   <div className="text">{item.freedEpisodeSize}화 무료</div>
                   <div className="text">
                     {getContentStateToString(
