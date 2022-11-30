@@ -29,6 +29,8 @@ export const useInfiniteFetchComics = (genre: Genre) => {
   return useInfiniteFetch<ComicRankApiSuccessResponse>(
     getRequestPathName(genre),
     {
+      // enabled: false,
+      // refetchOnWindowFocus: false,
       getNextPageParam: ({ hasNext }, { length }) => {
         if (hasNext) {
           return length + 1;

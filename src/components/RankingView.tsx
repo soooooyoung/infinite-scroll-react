@@ -1,7 +1,7 @@
 import { List, Skeleton } from "antd";
-import { useEffect, useMemo } from "react";
-import { useInView } from "react-intersection-observer";
+import { useMemo } from "react";
 import { useInfiniteFetchComics } from "../api/comics";
+import { useObserver } from "../hooks/UseObserver";
 import { ComicRankItem, Genre } from "../models";
 import "./RankingView.css";
 
@@ -10,8 +10,6 @@ interface Props {
 }
 
 const RankingView = ({ genre }: Props) => {
-  const [ref, inView] = useInView();
-
   const {
     data: result,
     isLoading,
@@ -20,16 +18,17 @@ const RankingView = ({ genre }: Props) => {
     fetchNextPage,
   } = useInfiniteFetchComics(genre);
 
+  const ref = useObserver((observer) => {
+    if (hasNextPage && !isFetching) {
+      fetchNextPage();
+      if (ref.current) observer.unobserve(ref.current);
+    }
+  });
+
   const list = useMemo<ComicRankItem[]>(
     () => result?.pages.flatMap(({ data }) => data) ?? [],
     [result]
   );
-
-  useEffect(() => {
-    if (inView && hasNextPage && !isFetching) {
-      fetchNextPage();
-    }
-  }, [fetchNextPage, hasNextPage, inView, isFetching]);
 
   return (
     <div className="rankingView">
@@ -38,10 +37,7 @@ const RankingView = ({ genre }: Props) => {
         size="large"
         dataSource={list}
         renderItem={(item, idx) => (
-          <List.Item
-            key={item.id}
-            ref={list.length - 1 === idx ? ref : undefined}
-          >
+          <List.Item key={item.id}>
             <Skeleton loading={isLoading} active>
               <div className="rank-item">
                 <div className="rank-item-cover">
@@ -64,7 +60,6 @@ const RankingView = ({ genre }: Props) => {
                         {idx < arr.length - 1 && ", "}
                       </span>
                     ))}
-                    wtwt
                   </div>
                 </div>
               </div>
@@ -72,6 +67,7 @@ const RankingView = ({ genre }: Props) => {
           </List.Item>
         )}
       />
+      <div ref={ref} />
     </div>
   );
 };
