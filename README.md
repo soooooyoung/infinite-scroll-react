@@ -47,6 +47,8 @@ role이 writer, painter, scripter 인 경우에만 출력.
 
 This app uses mock API server. You need to add .env file (provided by me) to the root directory. The server was created for testing purpose and uses mock data. It is located on a private VM (Oracle cloud) and will be publically available only during the testing period.
 
+.env 파일을 이메일로 전달 받으실 경우, 임의의 파일이름과 함께 첨부됩니다. 다운받으신 .env파일의 이름을 ".env" 로 수정 후 실행해주시길 바랍니다.
+
 ### Install Dependencies and Start
 
 ```
