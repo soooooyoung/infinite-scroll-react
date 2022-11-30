@@ -1,6 +1,6 @@
 # About
 
-This is a sample React project written in TypeScript.
+This is a React Web Application fetching list of data implementing infinite scroll design with React Query and Intersection Observer API.
 
 ## Built with
 
@@ -38,3 +38,25 @@ role이 writer, painter, scripter 인 경우에만 출력.
 ### 필터링 기능
 
 연재중, 완결, 무료회차 3개 이상 여부가 필터링 설정 가능. 각 필터는 중복 설정이 가능하나 모순되는 케이스 경우 반대 케이스의 옵션은 자동으로 선택 해제.
+
+## How to Get Started
+
+### Get Access to Mock API server
+
+- [TestServer Github](https://github.com/soooooyoung/test-server.git)
+
+This app uses mock API server. You need to add .env file (provided by me) to the root directory. The server was created for testing purpose and uses mock data. It is located on a private VM (Oracle cloud) and will be publically available only during the testing period.
+
+### Install Dependencies and Start
+
+```
+yarn install
+```
+
+Install dependencies using yarn or npm.
+
+```
+yarn start
+```
+
+Start up application on local server using yarn or npm.
